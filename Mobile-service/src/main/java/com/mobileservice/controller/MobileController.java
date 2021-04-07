@@ -32,6 +32,16 @@ public class MobileController {
 		
 	}
 	
+	@GetMapping("/get")
+	public MobileEntity getAllMobile3(){
+		
+		MobileEntity mobile=new MobileEntity("Redmi", "Redmi-111");
+				
+		
+		return mobile;
+		
+	}
+	
 	
 	@GetMapping("/getmobiles")
 	public ResponseEntity<MobileResponse> getMobiles(){
