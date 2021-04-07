@@ -1,5 +1,7 @@
 package com.userservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.userservice.service.UserInterface;
 
 @RestController
 @RequestMapping("/user")
+
 public class UserController {
 
 	@Autowired
@@ -24,6 +27,8 @@ public class UserController {
 
 	@Autowired
 	UserInterface userService;
+	
+	private static final Logger log=LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/userdetails")
 	public ResponseEntity<UserEntity> getUserDetails() {
@@ -35,6 +40,8 @@ public class UserController {
 	// getForObject() return simple object.
 	@GetMapping("/user")
 	public ResponseEntity<UserEntity> getUserDetails1() {
+		
+		log.info("Inside getUserDetails1 of UserController");
 		UserEntity user = userService.getUserdetails();
 
 		String url = "http://MOBILE-SERVICE/mobile/get";
@@ -54,6 +61,8 @@ public class UserController {
 	@GetMapping("/usermobilewithheader/{mobile}")
 	public ResponseEntity<UserEntity> getUserMobileWithHeader(@RequestHeader(value = "usename") String userName,
 			@RequestHeader(value = "password") String pass, @PathVariable String mobile) {
+		log.info("Inside getUserMobileWithHeader of UserController");
+		
 		UserEntity user = userService.gerUserMobile(mobile);
 
 		return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
@@ -61,6 +70,7 @@ public class UserController {
 	
 	@PostMapping("/postusermobile/{mobile}")
 	public ResponseEntity<UserEntity> postUserMobile(@PathVariable String mobile) {
+		log.info("Inside postUserMobile of UserController");
 		UserEntity user = userService.postUserMobile(mobile);
 
 		return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
