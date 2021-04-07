@@ -32,7 +32,7 @@ public class UserService implements UserInterface {
 
 		// call mobile service
 
-		String url = "http://MOBILE-SERVICE/mobile/allmobiles/";
+		String url = "http://MOBILE-SERVICE/mobile/getmobiles";
 		ResponseEntity<MobileResponse> listOfMobile = restTemplate.getForEntity(url, MobileResponse.class);
 		user.setUserMobiles(listOfMobile.getBody());
 
