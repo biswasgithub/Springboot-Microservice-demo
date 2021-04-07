@@ -1,0 +1,42 @@
+server:
+  port: 7003
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallBack
+        - id: MOBILE-SERVICE
+          uri: lb://MOBILE-SERVICE
+          predicates:
+            - Path=/mobile/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: MOBILE-SERVICE
+                fallbackuri: forward:/mobileServiceFallBack
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+            
+            
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
